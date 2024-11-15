@@ -1,0 +1,65 @@
+
+<odoo>
+    <data>
+        
+        <!-- Tree view for agenda.materia -->
+
+        <record id="view_curso_tree" model="ir.ui.view">
+            <field name="name">agenda.curso.tree</field>
+            <field name="model">agenda.curso</field>
+            <field name="arch" type="xml">
+                <tree string="Cursos">
+                    <field name="name"/>
+                    <field name="nivel"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view for agenda.materia -->
+
+        <record id="view_curso_form" model="ir.ui.view">
+            <field name="name">agenda.curso.form</field>
+            <field name="model">agenda.curso</field>
+            <field name="arch" type="xml">
+                <form string="Curso">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="nivel"/>
+                        </group>
+                         <group string="Materias Asociados">
+                        <field name="materia_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="profesor_ids"/>
+                                
+                            </tree>
+                        </field>
+                    </group>
+                     <group string="Estudiantes Asociados">
+                        <field name="estudiante_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="registro"/>
+                                
+                            </tree>
+                        </field>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <record id="action_agenda_curso" model="ir.actions.act_window">
+        <field name="name">Cursos</field>
+        <field name="res_model">agenda.curso</field>
+        <field name="view_mode">tree,form</field>
+        <field name='view_id' ref="view_curso_tree" />
+    </record>
+
+   
+    <menuitem id="menu_agenda_curso" name="Curso" parent="menu_agenda_root" action="action_agenda_curso"  groups="base.group_system"  sequence="1" />
+
+
+    </data>
+</odoo>

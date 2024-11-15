@@ -1,0 +1,70 @@
+<odoo>
+    <!-- Vista de formulario para el modelo agenda.tutor -->
+    <record id="view_tutor_form" model="ir.ui.view">
+        <field name="name">agenda.tutor.form</field>
+        <field name="model">agenda.tutor</field>
+        <field name="arch" type="xml">
+            <form string="Tutor">
+                <sheet>
+                    <!-- Grupo de campos principales -->
+                    <group>
+                        <field name="name"/>
+                        <field name="fecha_nacimiento"/>
+                        <field name="direccion"/>
+                        <field name="telefono"/>
+                        <field name="email"/>
+                        <field name="parentesco"/>
+                        <field name="genero"/>
+                        <field name="carnet"/>
+                        <field name="registro"/>
+                    </group>
+                    <!-- Grupo para mostrar los estudiantes asociados -->
+                    <group string="Estudiantes Asociados">
+                        <field name="estudiante_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="carnet"/>
+                                
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <!-- Botón para asociar estudiantes -->
+                
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de lista para el modelo agenda.tutor -->
+    <record id="view_tutor_tree" model="ir.ui.view">
+        <field name="name">agenda.tutor.tree</field>
+        <field name="model">agenda.tutor</field>
+        <field name="arch" type="xml">
+            <tree string="Tutores">
+                <field name="name"/>
+                <field name="telefono"/>
+                <field name="email"/>
+                <field name="carnet"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acción para abrir las vistas de Tutor -->
+    <record id="action_tutor" model="ir.actions.act_window">
+        <field name="name">Tutores</field>
+        <field name="res_model">agenda.tutor</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tutor_tree"/>
+        <field name="help" type="html">
+            <p>
+                Aquí puedes gestionar los tutores de los estudiantes.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú para Tutores -->
+    <menuitem id="menu_tutor_root" name="Tutores" parent="menu_agenda_root" groups="base.group_system"  sequence="10"/>
+    <menuitem id="menu_tutor" name="Gestionar Tutores" parent="menu_tutor_root" action="action_tutor" sequence="10"/>
+
+  
+</odoo>

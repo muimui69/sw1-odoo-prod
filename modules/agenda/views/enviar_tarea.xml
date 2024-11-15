@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <!-- Vista de formulario para enviar la tarea -->
+        <record id="view_agenda_tarea_enviada_form" model="ir.ui.view">
+            <field name="name">agenda.tarea.enviada.form</field>
+            <field name="model">agenda.tarea_enviada</field>
+            <field name="arch" type="xml">
+                <form string="Enviar Tarea">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="tarea_id" />
+                            
+                            <field name="estado_envio" readonly="1"/>
+                        </group>
+                        <group string="Archivos Adjuntos">
+                            <field name="archivo_adjunto_ids">
+                                <tree string="Archivos Adjuntos" editable="bottom">
+                                    <field name="archivo_nombre"/>
+                                    <field name="archivo"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la vista de envío de tarea directamente desde el menú -->
+        <record id="action_enviar_tarea" model="ir.actions.act_window">
+            <field name="name">Enviar Tarea</field>
+            <field name="res_model">agenda.tarea_enviada</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_agenda_tarea_enviada_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- Menú para acceder directamente a la vista de envío de tarea -->
+        <menuitem id="menu_enviar_tarea_estudiante" name="Enviar Tarea" parent="menu_agenda_tarea_estudiante" action="action_enviar_tarea"/>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_agenda_estudiante,agenda.estudiante,model_agenda_estudiante,base.group_user,1,1,1,1
+access_agenda_profesor,agenda.profesor,model_agenda_profesor,base.group_user,1,1,1,1
+access_agenda_tutor,agenda.tutor,model_agenda_tutor,base.group_user,1,1,1,1
+access_agenda_curso,agenda.curso,model_agenda_curso,base.group_user,1,1,1,1
+access_agenda_materia,agenda.materia,model_agenda_materia,base.group_user,1,1,1,1
+access_agenda_tarea,agenda.tarea,model_agenda_tarea,base.group_user,1,1,1,1
+access_agenda_archivo_adjunto,agenda.archivo_adjunto,model_agenda_archivo_adjunto,base.group_user,1,1,1,1
+access_agenda_tarea_enviada,agenda.tarea_enviada,model_agenda_tarea_enviada,base.group_user,1,1,1,1
+access_agenda_comunicado,agenda.comunicado,model_agenda_comunicado,base.group_user,1,1,1,1

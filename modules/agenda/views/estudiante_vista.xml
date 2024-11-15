@@ -1,0 +1,77 @@
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="view_estudiante_form" model="ir.ui.view">
+            <field name="name">agenda.estudiante.form</field>
+            <field name="model">agenda.estudiante</field>
+            <field name="arch" type="xml">
+                <form string="Estudiante">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="carnet"/>
+                            <field name="fecha_nacimiento"/>
+                            <field name="direccion"/>
+                            <field name="telefono"/>
+                            <field name="genero"/>
+                           <field name="tutor_id"/>
+                            <field name="curso_id"/>
+                            <field name="fecha_ingreso"/>
+                            <field name="active"/>
+                        </group>
+                        <notebook>
+                            <page string="Materias">
+                                <field name="materia_ids">
+                                    <tree string="Materias">
+                                        <field name="name"/>
+                                        <field name="descripcion"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="view_estudiante_tree" model="ir.ui.view">
+            <field name="name">agenda.estudiante.tree</field>
+            <field name="model">agenda.estudiante</field>
+            <field name="arch" type="xml">
+                <tree string="Estudiantes">
+                    <field name="registro"/>
+                    <field name="name"/>
+                    <field name="carnet"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_estudiante_search" model="ir.ui.view">
+            <field name="name">agenda.estudiante.search</field>
+            <field name="model">agenda.estudiante</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Estudiantes">
+                    <field name="name"/>
+                    <field name="carnet"/>
+                    <filter string="Activos" name="active" domain="[('active', '=', True)]"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_estudiante" model="ir.actions.act_window">
+            <field name="name">Estudiantes</field>
+            <field name="res_model">agenda.estudiante</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_estudiante_tree"/>
+            <field name="search_view_id" ref="view_estudiante_search"/>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_agenda_root" name="Agenda"/>
+        <menuitem id="menu_estudiante" name="Estudiantes" parent="menu_agenda_root"  groups="base.group_system" action="action_estudiante"/>
+    </data>
+</odoo>

@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!-- Vista Kanban para agenda.estudiante -->
+        <record id="view_agenda_estudiante_kanban" model="ir.ui.view">
+            <field name="name">agenda.estudiante.kanban</field>
+            <field name="model">agenda.estudiante</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record">
+                                <div class="o_kanban_image">
+                                    <strong t-esc="record.name.value"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Acción para mostrar los estudiantes del tutor logueado -->
+        <record id="action_view_agenda_mis_estudiantes" model="ir.actions.act_window">
+            <field name="name">Mis Estudiantes</field>
+            <field name="res_model">agenda.estudiante</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('tutor_id.user_id', '=', uid)]</field>
+        </record>
+
+        <!-- Menú para acceder a "Mis Estudiantes" -->
+        <menuitem id="menu_agenda_mis_estudiantes_root" name="Mis Estudiantes" parent="menu_agenda_root"
+        groups="agenda.group_tutor" 
+         action="action_view_agenda_mis_estudiantes" sequence="2"/>
+    </data>
+</odoo>

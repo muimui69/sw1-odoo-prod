@@ -1,0 +1,94 @@
+<odoo>
+    <data>
+        <!-- Vista de solo lectura para los detalles de la tarea para estudiantes -->
+        <record id="view_agenda_tarea_form_estudiante_detalle" model="ir.ui.view">
+            <field name="name">agenda.tarea.form.estudiante.detalle</field>
+            <field name="model">agenda.tarea</field>
+            <field name="arch" type="xml">
+                <form string="Detalle de la Tarea" create="false" edit="false" delete="false">
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="descripcion" readonly="1"/>
+                            <field name="fecha" readonly="1"/>
+                            <field name="fecha_entrega" readonly="1"/>
+                            <field name="materia_id" readonly="1"/>
+                            <field name="curso_id" readonly="1"/>
+                            <field name="profesor_id" readonly="1"/>
+                        </group>
+
+                        <!-- Archivos adjuntos de la tarea en solo lectura -->
+                        <group string="Archivos Adjuntos">
+                            <field name="archivo_adjuntos_ids" readonly="1">
+                                <tree editable="false">
+                                    <field name="archivo_nombre" readonly="1"/>
+                                    <field name="archivo" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                         <group string="Enviar Tarea">
+                            <field name="tarea_enviada_ids" context="{'default_tarea_id': active_id}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="estado_envio" readonly="1"/>
+                                    <field name="archivo_adjunto_ids">
+                                        <tree editable="bottom">
+                                            <field name="archivo_nombre"/>
+                                            <field name="archivo" widget="binary" filename="archivo_nombre" />
+                                        </tree>
+                                    </field>
+                                </tree>
+                            </field>
+                        </group>
+                        
+
+                         
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista Kanban para que cada estudiante vea sus tareas -->
+        <record id="view_agenda_tarea_kanban_estudiante" model="ir.ui.view">
+            <field name="name">agenda.tarea.kanban.estudiante</field>
+            <field name="model">agenda.tarea</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_entrega"/>
+                    <field name="materia_id"/>
+                    <field name="profesor_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record">
+                                <div class="o_kanban_image">
+                                    <strong t-esc="record.name.value"/><br/>
+                                    <small><b>Materia:</b> <span t-esc="record.materia_id.value"/></small><br/>
+                                    <small><b>Fecha de Entrega:</b> <span t-esc="record.fecha_entrega.value"/></small><br/>
+                                    <small><b>Profesor:</b> <span t-esc="record.profesor_id.value"/></small>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la vista Kanban filtrada y mostrar solo la vista de detalles para estudiantes -->
+        <record id="action_agenda_tarea_kanban_estudiante" model="ir.actions.act_window">
+            <field name="name">Mis Tareas</field>
+            <field name="res_model">agenda.tarea</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="view_agenda_tarea_kanban_estudiante"/>
+            <field name="domain">[('estudiantes_ids.user_id', '=', uid)]</field>
+            <field name="context">{'form_view_ref': 'agenda.view_agenda_tarea_form_estudiante_detalle'}</field>
+        </record>
+
+        <!-- Menú para acceder a la vista de tareas del estudiante logueado -->
+        <menuitem id="menu_agenda_tarea_estudiante" name="Mis Tareas" groups="agenda.group_estudiante"  parent="menu_agenda_root" />
+        <menuitem id="menu_agenda_tarea_estudiante_kanban" name=" Las Tareas" parent="menu_agenda_tarea_estudiante" action="action_agenda_tarea_kanban_estudiante"/>
+
+    </data>
+</odoo>

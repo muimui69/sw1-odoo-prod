@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+
+        <record id="view_tree_agenda_comunicado" model="ir.ui.view">
+    <field name="name">agenda.comunicado.tree</field>
+    <field name="model">agenda.comunicado</field>
+    <field name="arch" type="xml">
+        <tree string="Comunicados">
+            <field name="titulo"/>
+            <field name="fecha"/>
+            <field name="tipo_destinatario_general"/>
+        </tree>
+    </field>
+</record>
+
+
+        <record id="view_form_agenda_comunicado" model="ir.ui.view">
+            <field name="name">agenda.comunicado.form</field>
+            <field name="model">agenda.comunicado</field>
+            <field name="arch" type="xml">
+                <form string="Comunicado">
+                 <header>
+                        <button name="enviar_comunicado" type="object" string="Enviar Comunicado" class="btn-primary"/>
+                </header>
+                    <sheet>
+                        <group>
+                            <field name="titulo"/>
+                            <field name="mensaje"/>
+                            <field name="fecha"/>
+                            <field name="tipo_destinatario_general" widget="radio"/>
+                            <field name="curso_ids" placeholder="Seleccione cursos si aplica"/>
+                        </group>
+                         <group string="Archivos Adjuntos">
+                            <field name="adjunto_ids">
+                                <tree editable="bottom">
+                                    <field name="archivo_nombre"/>
+                                    <field name="archivo"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="archivo_nombre"/>
+                                        <field name="archivo"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la vista de comunicados -->
+        <record id="action_agenda_comunicado" model="ir.actions.act_window">
+            <field name="name">Comunicados</field>
+            <field name="res_model">agenda.comunicado</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menú para acceder a la vista de comunicados -->
+        <menuitem id="menu_agenda_comunicado" name="Comunicados" parent="menu_agenda_root"  groups="base.group_system" action="action_agenda_comunicado"/>
+    </data>
+</odoo>

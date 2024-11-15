@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <!-- Vista Kanban para agenda.curso -->
+        <record id="view_agenda_curso_kanban" model="ir.ui.view">
+            <field name="name">agenda.curso.kanban</field>
+            <field name="model">agenda.curso</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record">
+                                <div class="o_kanban_image">
+                                    <strong t-esc="record.name.value"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Acción para mostrar los cursos del profesor logueado -->
+        <record id="action_view_agenda_mis_cursos" model="ir.actions.act_window">
+            <field name="name">Mis Cursos</field>
+            <field name="res_model">agenda.curso</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('profesor_ids.user_id', '=', uid)]</field>
+        </record>
+
+        <!-- Menú para acceder a "Mis Cursos" -->
+        <menuitem id="menu_agenda_mis_cursos_root" name="Mis Cursos" parent="menu_agenda_root"
+         action="action_view_agenda_mis_cursos"
+         groups="agenda.group_profesor"
+            sequence="2"/>
+    </data>
+</odoo>

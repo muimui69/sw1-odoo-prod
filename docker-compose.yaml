@@ -1,0 +1,38 @@
+version: '3'
+services:
+  web:
+    build: . # Construye la imagen utilizando el Dockerfile en el directorio actual
+    container_name: odoo-web
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - odoo-web-data:/var/lib/odoo
+      - ./config_odoo:/etc/odoo
+      - ./modules:/mnt/extra-addons # Ruta a tu carpeta de módulos personalizados
+      - ./log:/var/log/odoo
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=myodootest
+      - STABLE_DIFUSION_API_KEY=sk-49eDxOyxM7sRSWpURoJOT5b806XezRCcPhgbIbMYVxhCcBco
+      - COHERE_API_KEY=nU31ZxPo3GBsk9OD1Rl0XWd4QjPnTrwfNcQRZrFa
+    env_file:
+      - .env
+    entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf"
+  db:
+    image: postgres:14.3
+    container_name: odoo-db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=myodootest
+      - POSTGRES_USER=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+volumes:
+  odoo-web-data:
+  odoo-db-data:

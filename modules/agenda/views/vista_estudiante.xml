@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+
+         <record id="view_agenda_materia_kanban" model="ir.ui.view">
+    <field name="name">agenda.materia.kanban</field>
+    <field name="model">agenda.materia</field>
+    <field name="arch" type="xml">
+        <kanban class="o_kanban_small_column">
+            <field name="name"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_global_click o_kanban_record">
+                        <div class="o_kanban_image">
+                            <strong t-esc="record.name.value"/>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+<record id="action_view_agenda_mis_materias" model="ir.actions.act_window">
+    <field name="name">Mis Materias</field>
+    <field name="res_model">agenda.materia</field>
+    <field name="view_mode">kanban,tree,form</field>
+    <field name="domain">[('estudiante_ids.user_id', '=', uid)]</field>
+</record>
+   
+        <!-- Menu item for agenda.materia -->
+        <menuitem id="menu_agenda_mis_materia_root" name="Mis Materias" parent="menu_agenda_root" groups="agenda.group_estudiante"  action="action_view_agenda_mis_materias" sequence="1"/>
+
+    </data>
+
+</odoo>

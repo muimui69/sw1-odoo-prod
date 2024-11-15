@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <!-- Vista de árbol para "Mis Comunicados" -->
+        <record id="view_tree_agenda_mis_comunicados" model="ir.ui.view">
+            <field name="name">agenda.mis_comunicados.tree</field>
+            <field name="model">agenda.comunicado</field>
+            <field name="arch" type="xml">
+                <tree string="Mis Comunicados">
+                    <field name="titulo"/>
+                    <field name="fecha"/>
+                    <field name="tipo_destinatario_general"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de formulario solo lectura para "Mis Comunicados" -->
+        <record id="view_form_agenda_mis_comunicados" model="ir.ui.view">
+            <field name="name">agenda.mis_comunicados.form</field>
+            <field name="model">agenda.comunicado</field>
+            <field name="arch" type="xml">
+                <form string="Mis Comunicados">
+                    <sheet>
+                        <group>
+                            <field name="titulo" readonly="1"/>
+                            <field name="mensaje" readonly="1"/>
+                            <field name="fecha" readonly="1"/>
+                            <field name="tipo_destinatario_general" readonly="1"/>
+                            <field name="curso_ids" readonly="1"/>
+                        </group>
+                        <group string="Archivos Adjuntos">
+                            <field name="adjunto_ids" readonly="1">
+                                <tree>
+                                    <field name="archivo_nombre" readonly="1"/>
+                                    <field name="archivo" readonly="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="archivo_nombre" readonly="1"/>
+                                        <field name="archivo" readonly="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Nueva acción para ver solo los comunicados asignados al usuario logueado -->
+        <record id="action_agenda_mis_comunicados" model="ir.actions.act_window">
+            <field name="name">Mis Comunicados</field>
+            <field name="res_model">agenda.comunicado</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[
+                '|', '|',
+                ('profesor_ids.user_id', '=', uid),
+                ('estudiante_ids.user_id', '=', uid),
+                ('tutor_ids.user_id', '=', uid)
+            ]</field>
+            <!-- Asociamos las vistas a la acción -->
+            <field name="view_ids" eval="[(5, 0, 0),
+                                          (0, 0, {'view_mode': 'tree', 'view_id': ref('view_tree_agenda_mis_comunicados')}),
+                                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_form_agenda_mis_comunicados')})]"/>
+        </record>
+
+        <!-- Menú para acceder a "Mis Comunicados" solo visible para usuarios en grupos específicos -->
+        <menuitem id="menu_agenda_mis_comunicados" name="Mis Comunicados" parent="menu_agenda_root" action="action_agenda_mis_comunicados"
+                  groups="agenda.group_profesor,agenda.group_estudiante,agenda.group_tutor"/>
+    </data>
+</odoo>

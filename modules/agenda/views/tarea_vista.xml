@@ -1,0 +1,81 @@
+<odoo>
+    <data>
+        <!-- Vista Kanban para ver tareas -->
+        <record id="view_agenda_tarea_kanban" model="ir.ui.view">
+            <field name="name">agenda.tarea.kanban</field>
+            <field name="model">agenda.tarea</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="descripcion"/>
+                    <field name="fecha_entrega"/>
+                    <field name="materia_id"/>
+                    <field name="profesor_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record">
+                                <div class="o_kanban_image">
+                                    <strong t-esc="record.name.value"/><br/>
+                                    <small><b>Materia:</b> <span t-esc="record.materia_id.value"/></small><br/>
+                                    <small><b>Fecha de Entrega:</b> <span t-esc="record.fecha_entrega.value"/></small><br/>
+                                    <small><b>Profesor:</b> <span t-esc="record.profesor_id.value"/></small>
+                                </div>
+                                
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vista de formulario para asignar/ver detalles de una tarea -->
+        <record id="view_agenda_tarea_form" model="ir.ui.view">
+            <field name="name">agenda.tarea.form</field>
+            <field name="model">agenda.tarea</field>
+            <field name="arch" type="xml">
+                <form string="Tarea">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="descripcion"/>
+                            <field name="fecha"/>
+                            <field name="fecha_entrega"/>
+                            <field name="materia_id"/>
+                            <field name="curso_id"/>
+                            <field name="profesor_id" readonly="1" />
+                        </group>
+                        <group string="Archivos Adjuntos">
+                            <field name="archivo_adjuntos_ids">
+                                <tree editable="bottom" string="Archivos Adjuntos">
+                                    <field name="archivo_nombre"/>
+                                    <field name="archivo"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <notebook>
+                            <page string="Estudiantes">
+                                <field name="estudiantes_ids">
+                                    <tree string="Estudiantes">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                   </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Acción para abrir la vista Kanban de tareas -->
+        <record id="action_agenda_tarea_kanban" model="ir.actions.act_window">
+            <field name="name">Tareas</field>
+            <field name="res_model">agenda.tarea</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="view_agenda_tarea_kanban"/>
+            <field name="domain">[('profesor_id.user_id', '=', uid)]</field>
+        </record>
+
+        <!-- Menú para acceder a la vista de tareas -->
+        <menuitem id="menu_agenda_tarea" name="Tareas" parent="menu_agenda_root" groups="agenda.group_profesor"  action="action_agenda_tarea_kanban"/>
+    </data>
+</odoo>
