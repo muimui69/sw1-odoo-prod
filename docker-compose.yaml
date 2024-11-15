@@ -18,7 +18,7 @@ services:
       - PASSWORD=myodootest
       - STABLE_DIFUSION_API_KEY=sk-49eDxOyxM7sRSWpURoJOT5b806XezRCcPhgbIbMYVxhCcBco
       - COHERE_API_KEY=nU31ZxPo3GBsk9OD1Rl0XWd4QjPnTrwfNcQRZrFa
-      # env_file:
+      # env_file: 
       # - .env
     entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf"
   db:
